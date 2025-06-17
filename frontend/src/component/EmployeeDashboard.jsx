@@ -203,7 +203,7 @@ const EmployeeDashboard = () => {
                   fontWeight: '700',
                   marginLeft: '42px'
                 }}>
-                  {employee.company?.name || 'N/A'}
+                  {employee.company_name || 'N/A'}
                 </div>
               </div>
 
@@ -247,7 +247,7 @@ const EmployeeDashboard = () => {
                   fontWeight: '600',
                   marginLeft: '42px'
                 }}>
-                  {employee.department?.name || 'N/A'}
+                  {employee.department_name || 'N/A'}
                 </div>
               </div>
             </div>

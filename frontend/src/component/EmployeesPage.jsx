@@ -50,7 +50,7 @@ const EmployeesPage = () => {
             {employees.map((emp) => (
               <tr key={emp.id}>
                 <td style={styles.td}>{emp.user?.first_name} {emp.user?.last_name}</td>
-                <td style={styles.td}>{emp.department?.name}</td>
+                <td style={styles.td}>{emp.department_name}</td>
                 <td style={styles.td}>{emp.role}</td>
                 <td style={styles.td}>{emp.user?.email}</td>
                 <td style={styles.td}>{emp.is_active ? 'Active' : 'Inactive'}</td>

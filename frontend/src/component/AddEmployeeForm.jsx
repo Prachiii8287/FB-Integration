@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { createEmployee } from '../store/employeeSlice';
+import { createEmployee, fetchEmployees } from '../store/employeeSlice';
+import { fetchDepartments } from '../store/companySlice';
 
 const AddEmployeeForm = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector(state => state.auth.user);
+  const { departments } = useSelector((state) => state.company);
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -18,6 +20,10 @@ const AddEmployeeForm = () => {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    dispatch(fetchDepartments());
+  }, [dispatch]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -204,24 +210,19 @@ const AddEmployeeForm = () => {
               Department
             </label>
             <div style={styles.inputWrapper}>
-              <input
-                type="text"
+              <select
                 id="department"
                 name="department"
                 value={formData.department}
                 onChange={handleChange}
                 style={styles.input}
-                onFocus={(e) => {
-                  Object.assign(e.target.style, styles.inputFocused);
-                }}
-                onBlur={(e) => {
-                  e.target.style.borderColor = '#e8ecf0';
-                  e.target.style.boxShadow = 'none';
-                  e.target.style.transform = 'none';
-                }}
-                placeholder="Enter department"
                 required
-              />
+              >
+                <option value="">Select department</option>
+                {departments.map((dept) => (
+                  <option key={dept.id} value={dept.id}>{dept.name}</option>
+                ))}
+              </select>
             </div>
           </div>
 

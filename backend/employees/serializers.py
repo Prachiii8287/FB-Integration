@@ -6,14 +6,15 @@ from companies.models import Company
 class EmployeeSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
     company_name = serializers.CharField(source='company.name', read_only=True)
+    department_name = serializers.CharField(source='department.name', read_only=True)
 
     class Meta:
         model = Employee
         fields = [
-            'id', 'user', 'company_name', 'company', 'role', 'date_joined',
-            'is_active', 'employee_id', 'department'
+            'id', 'user', 'company_name', 'company', 'role', 'joining_date',
+            'is_active', 'employee_id', 'department', 'department_name'
         ]
-        read_only_fields = ('id', 'date_joined', 'user', 'company', 'company_name', 'employee_id')
+        read_only_fields = ('id', 'joining_date', 'user', 'company', 'company_name', 'employee_id', 'department_name')
 
 
 class EmployeeCreateSerializer(serializers.ModelSerializer):
@@ -74,11 +75,12 @@ class EmployeeDetailSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
     company = serializers.PrimaryKeyRelatedField(read_only=True)
     department = serializers.PrimaryKeyRelatedField(read_only=True)
+    department_name = serializers.CharField(source='department.name', read_only=True)
 
     class Meta:
         model = Employee
         fields = [
-            'id', 'user', 'company', 'role', 'date_joined',
-            'is_active', 'employee_id', 'department'
+            'id', 'user', 'company', 'role', 'joining_date',
+            'is_active', 'employee_id', 'department', 'department_name'
         ]
-        read_only_fields = ('id', 'date_joined', 'user', 'employee_id') 
+        read_only_fields = ('id', 'joining_date', 'user', 'employee_id', 'department_name') 
