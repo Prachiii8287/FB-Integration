@@ -3,19 +3,22 @@ import { Users, Building2, Settings, UserPlus } from 'lucide-react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { fetchEmployees } from '../store/employeeSlice';
-import { fetchDepartments } from '../store/companySlice';
+import { fetchDepartments, fetchCompanyProfile } from '../store/companySlice';
 
 const AdminDashboard = () => {
   const { user } = useSelector((state) => state.auth);
   const { employees, loading } = useSelector((state) => state.employees);
-  const { departments } = useSelector((state) => state.company);
+  const { departments, profile: companyProfile } = useSelector((state) => state.company);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(fetchEmployees());
     dispatch(fetchDepartments());
-  }, [dispatch]);
+    if (user?.company) {
+      dispatch(fetchCompanyProfile(user.company));
+    }
+  }, [dispatch, user]);
 
   if (user?.role !== 'ADMIN') {
     return <Navigate to="/" />;
@@ -26,7 +29,7 @@ const AdminDashboard = () => {
       {/* Header Section */}
       <div style={{ marginBottom: '40px' }}>
         <h1 style={{ color: 'black', fontSize: '32px', fontWeight: 'bold', margin: '0 0 8px 0', letterSpacing: '-0.5px' }}>
-          {user?.company ? `${user.company} - Admin Dashboard` : 'Admin Dashboard'}
+          {companyProfile?.name ? `${companyProfile.name} - Admin Dashboard` : (user?.company ? `${user.company} - Admin Dashboard` : 'Admin Dashboard')}
         </h1>
         <p style={{ color: '#666', fontSize: '16px', margin: '0', fontWeight: '400' }}>
           Welcome, Admin! Here you can manage company employees.

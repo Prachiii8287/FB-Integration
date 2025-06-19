@@ -267,7 +267,7 @@ const AdminUsersPage = () => {
                     </span>
                   </td>
                   <td style={styles.td}>
-                    {admin.created_at ? new Date(admin.created_at).toLocaleDateString() : ''}
+                    {admin.date_joined ? new Date(admin.date_joined).toLocaleDateString() : ''}
                   </td>
                   <td style={styles.td}>
                     <div style={styles.actions}>
